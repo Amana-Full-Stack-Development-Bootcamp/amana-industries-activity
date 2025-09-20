@@ -17,7 +17,7 @@ export default function Home() {
     // Add vertical spacing between direct children using space-y
     <div className="min-h-screen bg-white flex flex-col font-sans space-y-6">
       <Header companyInfo={jsonData.company_info} />
-      <main className="flex-grow">
+      <main className="flex p-12">
         <MapComponent factories={jsonData.factory_data} />
       </main>
       <ProductionBarChart data={jsonData} />
