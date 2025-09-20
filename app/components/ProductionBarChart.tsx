@@ -17,6 +17,11 @@ type ProductionBarChartProps = {
   data: Root;
 };
 
+interface MonthEntry {
+  month: string;
+  [key: string]: number | string;
+}
+
 const ProductionBarChart: React.FC<ProductionBarChartProps> = ({ data }) => {
   const factories = data.factory_data.filter(
     (f) => f.name && f.production_level_2024
@@ -35,13 +40,14 @@ const ProductionBarChart: React.FC<ProductionBarChartProps> = ({ data }) => {
 
   // Step 2: Build chart data for each month
   const chartData = allMonths.map((month) => {
-    const monthEntry: { month: string; [key: string]: number } = { month };
+    const monthEntry: MonthEntry = { month };
 
     factories.forEach((factory) => {
       if (!factory.name || !factory.production_level_2024) return;
       const production =
-        factory.production_level_2024.find((p) => p.month === month)?.value ??
-        0;
+        factory.production_level_2024.find(
+          (p: ProductionLevel) => p.month === month
+        )?.value ?? 0;
       monthEntry[factory.name] = production;
     });
 
@@ -50,7 +56,10 @@ const ProductionBarChart: React.FC<ProductionBarChartProps> = ({ data }) => {
 
   // Step 3: Filter out months where all factories have zero production
   const filteredData = chartData.filter((monthEntry) =>
-    factories.some((factory) => monthEntry[factory.name!] > 0)
+    factories.some((factory) => {
+      const value = monthEntry[factory.name!];
+      return typeof value === "number" && value > 0;
+    })
   );
 
   if (filteredData.length === 0) return <p>No production data to display.</p>;

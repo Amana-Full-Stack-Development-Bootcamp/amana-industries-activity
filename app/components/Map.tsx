@@ -1,5 +1,7 @@
+import L from "leaflet";
 import { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { FactoryData } from "../data/jsonData";
 
 const operationalIconSvg = `
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="green" width="36px" height="36px">
@@ -11,7 +13,7 @@ const maintenanceIconSvg = `
     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
   </svg>`;
 
-export const MapComponent = ({ factories }) => {
+export const MapComponent = ({ factories }: FactoryData) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -36,8 +38,12 @@ export const MapComponent = ({ factories }) => {
   });
 
   // Calculate center of the map
-  const latitudes = factories.map((f) => f.location.latitude);
-  const longitudes = factories.map((f) => f.location.longitude);
+  const latitudes: number[] = factories.map(
+    (f: FactoryData) => f?.location?.latitude
+  );
+  const longitudes: number[] = factories.map(
+    (f: FactoryData) => f?.location?.longitude
+  );
   const centerLat = latitudes.reduce((a, b) => a + b, 0) / latitudes.length;
   const centerLng = longitudes.reduce((a, b) => a + b, 0) / longitudes.length;
 
@@ -66,12 +72,12 @@ export const MapComponent = ({ factories }) => {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {factories.map((factory) => (
+            {factories.map((factory: FactoryData) => (
               <Marker
                 key={factory.id}
                 position={[
-                  factory.location.latitude,
-                  factory.location.longitude,
+                  factory.location?.latitude ?? 0,
+                  factory.location?.longitude ?? 0,
                 ]}
                 icon={
                   factory.status === "operational"
@@ -83,7 +89,7 @@ export const MapComponent = ({ factories }) => {
                   <div className="font-sans">
                     <h3 className="font-bold text-base mb-1">{factory.name}</h3>
                     <p className="text-gray-600 text-sm">
-                      {factory.location.city}, {factory.location.country}
+                      {factory.location?.city}, {factory.location?.country}
                     </p>
                     <p
                       className={`text-sm font-semibold mt-2 ${
