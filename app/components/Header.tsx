@@ -2,7 +2,15 @@
  * Header Component
  * Displays the navigation bar, company title, and description.
  */
-export const Header = ({ companyInfo }) => {
+
+interface HeaderProps {
+  companyInfo: {
+    name: string;
+    description: string;
+  };
+}
+
+export const Header = ({ companyInfo }: HeaderProps) => {
   return (
     <header className="bg-white shadow-md">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
