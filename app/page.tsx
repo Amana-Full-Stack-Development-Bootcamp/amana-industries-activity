@@ -20,7 +20,9 @@ export default function Home() {
       <main className="flex p-12">
         <MapComponent factories={jsonData.factory_data} />
       </main>
-      <ProductionBarChart data={jsonData} />
+      <div className="m-12 border border-black rounded-sm">
+        <ProductionBarChart data={jsonData} />
+      </div>
       <Footer />
     </div>
   );
