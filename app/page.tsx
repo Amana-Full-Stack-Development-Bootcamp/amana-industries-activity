@@ -1,13 +1,18 @@
 "use client";
 
-import "leaflet/dist/leaflet.css";
+import dynamic from "next/dynamic";
 import React from "react";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
-import { MapComponent } from "./components/Map";
 import { jsonData } from "./data/jsonData";
 
+// Dynamically import MapComponent (client-side only)
+
 export default function Home() {
+  const MapComponent = dynamic(() => import("./components/Map"), {
+    ssr: false,
+  });
+
   return (
     <div className="min-h-screen bg-white flex flex-col font-sans">
       <Header companyInfo={jsonData.company_info} />

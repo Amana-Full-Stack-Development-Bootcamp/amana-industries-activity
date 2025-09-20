@@ -16,15 +16,15 @@ export interface CompanyInfo {
 export interface Location {
   city?: string;
   country?: string;
-  latitude?: number;
-  longitude?: number;
+  latitude: number;
+  longitude: number;
   address?: string;
 }
 
 export interface FactoryData {
   id?: number;
   name?: string;
-  location?: Location;
+  location: Location;
   status?: "operational" | "maintenance" | string;
   production?: ProductionLevel[];
   contact?: Contact;
