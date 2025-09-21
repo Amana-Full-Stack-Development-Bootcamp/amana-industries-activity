@@ -1,3 +1,6 @@
+<img width="1024" height="1024" alt="cover image" src="https://github.com/user-attachments/assets/f4905b79-becf-4a37-8ade-386e7f1e56b4" />
+
+
 # 🏭 Amana Industries Activity Assignment
 
 ## 📦 What This Repository Covers
